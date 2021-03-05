@@ -1,7 +1,8 @@
 {
   "stac_version": "1.0.0-rc.1",
   "stac_extensions": [
-    "https://stac-extensions.github.io/tiled-assets/v1.0.0/schema.json"
+    "https://stac-extensions.github.io/tiled-assets/v1.0.0/schema.json",
+    "eo"
   ],
   "id": "s2cloudless_2018",
   "type": "Feature",
