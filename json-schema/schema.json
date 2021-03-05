@@ -39,7 +39,7 @@
           "$ref": "#/definitions/stac_extensions"
         },
         {
-          "$ref": "#/definitions/fields"
+          "$ref": "#/definitions/catalog-collection-tiles"
         }
       ]
     }
