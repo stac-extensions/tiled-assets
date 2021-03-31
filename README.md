@@ -7,32 +7,32 @@
 - **Extension [Maturity Classification](https://github.com/radiantearth/stac-spec/tree/master/extensions/README.md#extension-maturity):** Proposal
 - **Owner**: @constantinius
 
-This document explains the Tiled Assets Extension to the 
+This document explains the Tiled Assets Extension to the
 [SpatioTemporal Asset Catalog](https://github.com/radiantearth/stac-spec) (STAC) specification.
 
-Some data products are too big to be handled in a single file or a small set of enumerated 
-files and are thus split into tiles. For example, Sentinel-2 datastrips are tiled into 
-overlapping granules, in some cases in even more than one coordinate reference system. 
-Other very big datasets, such as continental or global mosaics can also only be handled in 
-a tiled fashion. Usually, they go one step further and provide multiple layers of 
-resolution to allow a quick inspection of larger areas but also retain the possibility to 
+Some data products are too big to be handled in a single file or a small set of enumerated
+files and are thus split into tiles. For example, Sentinel-2 datastrips are tiled into
+overlapping granules, in some cases in even more than one coordinate reference system.
+Other very big datasets, such as continental or global mosaics can also only be handled in
+a tiled fashion. Usually, they go one step further and provide multiple layers of
+resolution to allow a quick inspection of larger areas but also retain the possibility to
 get to the full resolution data.
 
 When a very large dataset is split into many tiles it is very impractical to list all possible files with the `assets` property.
 
-This extension allows the specification of tiled assets within STAC Items. With this 
-extension it is possible to allow the description of assets using template references and 
-rules to construct those in order to get the tiles the user is interested in. The new 
-`asset_templates` property allows to specify template URLs where components can be replaced 
+This extension allows the specification of tiled assets within STAC Items. With this
+extension it is possible to allow the description of assets using template references and
+rules to construct those in order to get the tiles the user is interested in. The new
+`asset_templates` property allows to specify template URLs where components can be replaced
 to get the final URLs to the actual files.
 
-This extension is modelled in close alignment to the 
-[OGC Two Dimensional Tile Matrix Set](http://docs.opengeospatial.org/is/17-083r2/17-083r2.html). 
-The main access approach and the templating mechanism used is defined in 
+This extension is modelled in close alignment to the
+[OGC Two Dimensional Tile Matrix Set](http://docs.opengeospatial.org/is/17-083r2/17-083r2.html).
+The main access approach and the templating mechanism used is defined in
 the [OGC WMTS Simple Profile](http://docs.opengeospatial.org/is/13-082r2/13-082r2.html).
 
 - Examples:
-  - [Tiled](examples/example-tiled-assets-tiled.json) 
+  - [Tiled](examples/example-tiled-assets-tiled.json)
   - [Dimension](examples/example-tiled-assets-dimension.json)
 - [JSON Schema](json-schema/schema.json)
 - [Changelog](./CHANGELOG.md)
@@ -51,8 +51,8 @@ These fields can be applied to Item Properties, Collection, or Catalog objects.
 
 ### Tile Matrix Set Object
 
-Tile matrix sets can be directly embedded in a Collection, Catalog or Item. 
-Such directly embedded tile matrix set objects must conform to the 
+Tile matrix sets can be directly embedded in a Collection, Catalog or Item.
+Such directly embedded tile matrix set objects must conform to the
 [OGC Two Dimensional Tile Matrix Set JSON schema](http://schemas.opengis.net/tms/1.0/json/tms-schema.json).
 
 ## Item Properties fields
@@ -62,12 +62,12 @@ Such directly embedded tile matrix set objects must conform to the
 | tiles:tile_matrix_set_links | Map<string, [TileMatrixSetLink Object](#tile-matrix-set-link-object)> | A mapping of tile matrix set identifier to a tile matrix set link object.                                       |
 
 The keys of the `tiles:tile_matrix_set_links` mapping can be used as a substitution of
- the `{TileMatrixSet}` template parameters for the `href` field of 
+ the `{TileMatrixSet}` template parameters for the `href` field of
  the [Asset Object](https://github.com/radiantearth/stac-spec/tree/v1.0.0-rc.1/item-spec/item-spec.md#asset-object) used as `asset_template`.
 
 ### Tile Matrix Set Link Object
 
-This object allows to reference a tile matrix set. This concept is modelled after the 
+This object allows to reference a tile matrix set. This concept is modelled after the
 [TileMatrixSetLink2D requirement class](http://docs.opengeospatial.org/is/17-083r2/17-083r2.html#18).
 
 | Field Name           | Type                                                          | Description                                                                                                                  |
@@ -79,11 +79,11 @@ This object allows to reference a tile matrix set. This concept is modelled afte
 
 **url**/**well_known_scale_set**: Either one of these parameters must be present.
 
-**url**: The URL must refer to a valid tile matrix set definition as defined in the 
+**url**: The URL must refer to a valid tile matrix set definition as defined in the
 Two-dimensional tile matrix set specification in any encoding (JSON, JSON-LD, or XML).
-It is also possible, to have the tile matrix set embedded in the Item's Collection, 
-Catalog or even in the Item's file itself using the `tiles:tile_matrix_sets` property. 
-When referring to an embedded tile matrix set definition, the name of the map key 
+It is also possible, to have the tile matrix set embedded in the Item's Collection,
+Catalog or even in the Item's file itself using the `tiles:tile_matrix_sets` property.
+When referring to an embedded tile matrix set definition, the name of the map key
 of that tile matrix set definition must be used as a URL fragment.
 
 Example reference to an external tile matrix definition:
@@ -104,18 +104,18 @@ Example reference to an embedded definition in the same Item:
 "url": "#WebMercatorQuad"
 ```
 
-**limits**: The keys of the map are the identifiers of the tile matrices in their 
+**limits**: The keys of the map are the identifiers of the tile matrices in their
 respective tile matrix set. When present, only the referenced tile matrices are used
-for the assets. When the `limits` are not present, the tile matrix set in full is 
+for the assets. When the `limits` are not present, the tile matrix set in full is
 referenced.
 
-**pixel_buffer**: For each tile matrix in a tile matrix set, a pixel buffer can be 
-specified. Similarly to the `limits` property, the key of the mapping must be the 
+**pixel_buffer**: For each tile matrix in a tile matrix set, a pixel buffer can be
+specified. Similarly to the `limits` property, the key of the mapping must be the
 identifier of one tile matrix.
 
 ### Tile Matrix Limits Object
 
-This object allows to specify subset region of the source tileset. This concept is modelled 
+This object allows to specify subset region of the source tileset. This concept is modelled
 after the [TileMatrixSetLimits2D requirement class](http://docs.opengeospatial.org/is/17-083r2/17-083r2.html#17).
 
 | Field Name    | Type    | Description                                                                                                           |
@@ -127,8 +127,8 @@ after the [TileMatrixSetLimits2D requirement class](http://docs.opengeospatial.o
 
 ### Pixel Buffer Object
 
-Pixel buffer objects allow the definition of image boundaries, so that the internal tiles 
-may overlap. When using this information, the clients may be able to reduce the number of 
+Pixel buffer objects allow the definition of image boundaries, so that the internal tiles
+may overlap. When using this information, the clients may be able to reduce the number of
 requests.
 
 | Field Name    | Type    | Description                                                                                                        |
@@ -148,16 +148,16 @@ requests.
 | ------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | asset_templates     | Map<string, [Asset Object](https://github.com/radiantearth/stac-spec/tree/v1.0.0-rc.1/item-spec/item-spec.md#asset-object)> | **REQUIRED.** An map key to Asset objects that use template parameters for later substitution |
 
-**asset_templates**: The `href` field can make use of template parameters that can be 
-replaced with values to generate references to actual files. The available template 
-parameters are `{TileMatrixSet}`, `{TileMatrix}`, `{TileRow}`, and `{TileCol}`. The 
-templating mechanism is detailed in the 
+**asset_templates**: The `href` field can make use of template parameters that can be
+replaced with values to generate references to actual files. The available template
+parameters are `{TileMatrixSet}`, `{TileMatrix}`, `{TileRow}`, and `{TileCol}`. The
+templating mechanism is detailed in the
 [OGC WMTS Simple Profile](http://docs.opengeospatial.org/is/13-082r2/13-082r2.html#17).
-Additional template substitution parameters may be present, see the next section for 
+Additional template substitution parameters may be present, see the next section for
 more details.
 
-Also: it is not mandatory, that all template parameters are present. If, for example, 
-the data is only available in one specific tile matrix, then that parameter can be omitted. 
+Also: it is not mandatory, that all template parameters are present. If, for example,
+the data is only available in one specific tile matrix, then that parameter can be omitted.
 It is possible, for whatever reason, to have the same template parameter more than once in
  the same template string.
 
@@ -173,13 +173,45 @@ This list is not exhaustive, other useful template substitutions may exist.
 ### Template examples
 
 - Plain:
-  
+
   `http://example.com/data/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}.jpeg`
 
 - Using `eo:bands`:
-  
+
   `http://example.com/data/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}/{eo:bands}.jpeg`
 
 - Using `cube:dimensions`:
-  
+
   `http://example.com/data/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}/{cube:dimensions:elevation}.jpeg`
+
+
+## Contributing
+
+All contributions are subject to the
+[STAC Specification Code of Conduct](https://github.com/radiantearth/stac-spec/blob/master/CODE_OF_CONDUCT.md).
+For contributions, please follow the
+[STAC specification contributing guide](https://github.com/radiantearth/stac-spec/blob/master/CONTRIBUTING.md) Instructions
+for running tests are copied here for convenience.
+
+### Running tests
+
+The same checks that run as checks on PR's are part of the repository and can be run locally to verify that changes are valid.
+To run tests locally, you'll need `npm`, which is a standard part of any [node.js installation](https://nodejs.org/en/download/).
+
+First you'll need to install everything with npm once. Just navigate to the root of this repository and on
+your command line run:
+```bash
+npm install
+```
+
+Then to check markdown formatting and test the examples against the JSON schema, you can run:
+```bash
+npm test
+```
+
+This will spit out the same texts that you see online, and you can then go and fix your markdown or examples.
+
+If the tests reveal formatting problems with the examples, you can fix them with:
+```bash
+npm run format-examples
+```
