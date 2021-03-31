@@ -184,7 +184,6 @@ This list is not exhaustive, other useful template substitutions may exist.
 
   `http://example.com/data/{TileMatrixSet}/{TileMatrix}/{TileRow}/{TileCol}/{cube:dimensions:elevation}.jpeg`
 
-
 ## Contributing
 
 All contributions are subject to the
