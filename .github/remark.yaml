@@ -37,7 +37,7 @@ plugins:
   - - remark-lint-unordered-list-marker-style
     - '-'
   - - remark-lint-list-item-indent
-    - space 
+    - space
 # Tables
   - remark-lint-table-pipes
   - remark-lint-no-literal-urls

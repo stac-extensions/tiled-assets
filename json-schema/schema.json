@@ -190,9 +190,9 @@
               "type": "number"
             }
           }
-        }, 
+        },
         "template:another_one": {
-          "type": "array", 
+          "type": "array",
           "items": {
             "type": "number"
           }
