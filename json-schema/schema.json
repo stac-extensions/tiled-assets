@@ -129,7 +129,7 @@
           }
         },
         {
-          "$comment": "This is the schema for the fields in Summaries. By default, only checks the existance of the properties, but not the schema of the summaries.",
+          "$comment": "This is the schema for the fields in Summaries. By default, only checks the existence of the properties, but not the schema of the summaries.",
           "required": [
             "summaries"
           ],
@@ -158,7 +158,7 @@
       }
     },
     "require_any_field": {
-      "$comment": "Please list all fields here so that we can force the existance of one of them in other parts of the schemas.",
+      "$comment": "Please list all fields here so that we can force the existence of one of them in other parts of the schemas.",
       "anyOf": [
         {"required": ["template:new_field"]},
         {"required": ["template:xyz"]},
