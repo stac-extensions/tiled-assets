@@ -1,4 +1,6 @@
 plugins:
+# GitHub Flavored Markdown
+  - remark-gfm
 # Check links
   - validate-links
 # Apply some recommended defaults for consistency
@@ -8,6 +10,7 @@ plugins:
 # General formatting
   - - remark-lint-emphasis-marker
     - '*'
+  - remark-lint-no-undefined-references
   - remark-lint-hard-break-spaces
   - remark-lint-blockquote-indentation
   - remark-lint-no-consecutive-blank-lines
