@@ -63,7 +63,7 @@ Such directly embedded tile matrix set objects must conform to the
 
 The keys of the `tiles:tile_matrix_set_links` mapping can be used as a substitution of
  the `{TileMatrixSet}` template parameters for the `href` field of
- the [Asset Object](https://github.com/radiantearth/stac-spec/tree/v1.0.0-rc.1/item-spec/item-spec.md#asset-object) used as `asset_template`.
+ the [Asset Object](https://github.com/radiantearth/stac-spec/tree/v1.0.0/item-spec/item-spec.md#asset-object) used as `asset_template`.
 
 ### Tile Matrix Set Link Object
 
@@ -146,7 +146,7 @@ requests.
 
 | Field Name      | Type                                                                   | Description                                                                                   |
 | --------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| asset_templates | Map<string, [Asset Object](https://github.com/radiantearth/stac-spec/tree/v1.0.0-rc.1/item-spec/item-spec.md#asset-object)> | **REQUIRED.** An map key to Asset objects that use template parameters for later substitution |
+| asset_templates | Map<string, [Asset Object](https://github.com/radiantearth/stac-spec/tree/v1.0.0/item-spec/item-spec.md#asset-object)> | **REQUIRED.** An map key to Asset objects that use template parameters for later substitution |
 
 **asset_templates**: The `href` field can make use of template parameters that can be
 replaced with values to generate references to actual files. The available template

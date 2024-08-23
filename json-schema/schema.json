@@ -7,7 +7,7 @@
     {
       "allOf": [
         {
-          "$ref": "https://schemas.stacspec.org/v1.0.0-rc.1/item-spec/json-schema/item.json"
+          "$ref": "https://schemas.stacspec.org/v1.0.0/item-spec/json-schema/item.json"
         },
         {
           "$ref": "#/definitions/stac_extensions"
@@ -20,7 +20,7 @@
     {
       "allOf": [
         {
-          "$ref": "https://schemas.stacspec.org/v1.0.0-rc.1/catalog-spec/json-schema/catalog.json"
+          "$ref": "https://schemas.stacspec.org/v1.0.0/catalog-spec/json-schema/catalog.json"
         },
         {
           "$ref": "#/definitions/stac_extensions"
@@ -33,7 +33,7 @@
     {
       "allOf": [
         {
-          "$ref": "https://schemas.stacspec.org/v1.0.0-rc.1/collection-spec/json-schema/collection.json"
+          "$ref": "https://schemas.stacspec.org/v1.0.0/collection-spec/json-schema/collection.json"
         },
         {
           "$ref": "#/definitions/stac_extensions"
@@ -102,7 +102,7 @@
           "description": "Links to assets templates. These are regular assets that may have template arguments in their href property.",
           "type": "object",
           "additionalProperties": {
-            "$ref": "https://schemas.stacspec.org/v1.0.0-rc.1/item-spec/json-schema/item.json#/definitions/asset"
+            "$ref": "https://schemas.stacspec.org/v1.0.0/item-spec/json-schema/item.json#/definitions/asset"
           }
         }
       }
