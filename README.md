@@ -47,7 +47,7 @@ These fields can be applied to Item Properties, Collection, or Catalog objects.
 
 | Field Name               | Type                                                                  | Description                                                                                                          |
 | ------------------------ | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| tiles:tile_matrix_sets   | Map<string, [TileMatrixSet Object](#tile-matrix-set-object)>          | **REQUIRED for Collections and Catalogs.** A mapping of tile matrix set identifier to a tile matrix set link object. |
+| tiles:tile_matrix_sets | Map<string, [TileMatrixSet Object](#tile-matrix-set-object)> | **REQUIRED for Collections and Catalogs.** A mapping of tile matrix set identifier to a tile matrix set link object. |
 
 ### Tile Matrix Set Object
 
@@ -59,7 +59,7 @@ Such directly embedded tile matrix set objects must conform to the
 
 | Field Name                  | Type                                                                  | Description                                                                                                     |
 | --------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| tiles:tile_matrix_set_links | Map<string, [TileMatrixSetLink Object](#tile-matrix-set-link-object)> | A mapping of tile matrix set identifier to a tile matrix set link object.                                       |
+| tiles:tile_matrix_set_links | Map<string, [TileMatrixSetLink Object](#tile-matrix-set-link-object)> | A mapping of tile matrix set identifier to a tile matrix set link object. |
 
 The keys of the `tiles:tile_matrix_set_links` mapping can be used as a substitution of
  the `{TileMatrixSet}` template parameters for the `href` field of
@@ -75,7 +75,7 @@ This object allows to reference a tile matrix set. This concept is modelled afte
 | url                  | string                                                        | The URL reference to the actual tile matrix definition.                                                                      |
 | well_known_scale_set | string                                                        | If the tile matrix set completely aligns with a well known scale set can be referenced.                                      |
 | limits               | Map<string, [Tile Matrix Limits](#tile-matrix-limits-object)> | Optional limits for each tile matrix.                                                                                        |
-| pixel_buffer         | Map<string, [Pixel Buffer Object](#pixel-buffer-object)>      | An optional pixel buffer description object per tile matrix. By default, no pixel buffers are used.                          |
+| pixel_buffer         | Map<string, [Pixel Buffer Object](#pixel-buffer-object)>      | An optional pixel buffer description object per tile matrix. By default, no pixel buffers are used. |
 
 **url**/**well_known_scale_set**: Either one of these parameters must be present.
 
@@ -118,12 +118,12 @@ identifier of one tile matrix.
 This object allows to specify subset region of the source tileset. This concept is modelled
 after the [TileMatrixSetLimits2D requirement class](http://docs.opengeospatial.org/is/17-083r2/17-083r2.html#17).
 
-| Field Name    | Type    | Description                                                                                                           |
-| ------------- | ------- | --------------------------------------------------------------------------------------------------------------------- |
-| min_tile_row  | number  | Minimum tile row index valid for this layer. If not specified it uses the the one from the referenced tile matrix.    |
-| max_tile_row  | number  | Maximum tile row index valid for this layer. If not specified it uses the the one from the referenced tile matrix.    |
-| min_tile_col  | number  | Minimum tile column index valid for this layer. If not specified it uses the the one from the referenced tile matrix. |
-| max_tile_col  | number  | Maximum tile column index valid for this layer. If not specified it uses the the one from the referenced tile matrix. |
+| Field Name   | Type   | Description                                                                                                           |
+| ------------ | ------ | --------------------------------------------------------------------------------------------------------------------- |
+| min_tile_row | number | Minimum tile row index valid for this layer. If not specified it uses the the one from the referenced tile matrix.    |
+| max_tile_row | number | Maximum tile row index valid for this layer. If not specified it uses the the one from the referenced tile matrix.    |
+| min_tile_col | number | Minimum tile column index valid for this layer. If not specified it uses the the one from the referenced tile matrix. |
+| max_tile_col | number | Maximum tile column index valid for this layer. If not specified it uses the the one from the referenced tile matrix. |
 
 ### Pixel Buffer Object
 
@@ -144,9 +144,9 @@ requests.
 
 ## Item fields
 
-| Field Name          | Type                                                                   | Description                                                                                   |
-| ------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| asset_templates     | Map<string, [Asset Object](https://github.com/radiantearth/stac-spec/tree/v1.0.0-rc.1/item-spec/item-spec.md#asset-object)> | **REQUIRED.** An map key to Asset objects that use template parameters for later substitution |
+| Field Name      | Type                                                                   | Description                                                                                   |
+| --------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| asset_templates | Map<string, [Asset Object](https://github.com/radiantearth/stac-spec/tree/v1.0.0-rc.1/item-spec/item-spec.md#asset-object)> | **REQUIRED.** An map key to Asset objects that use template parameters for later substitution |
 
 **asset_templates**: The `href` field can make use of template parameters that can be
 replaced with values to generate references to actual files. The available template
@@ -163,10 +163,10 @@ It is possible, for whatever reason, to have the same template parameter more th
 
 ### Template Parameters from other extensions
 
-| Extension     | Property   | Template parameter         | Mapping description                                                                                               |
-| ------------- | ---------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| eo            | bands      | `{eo:band}`                | Each bands name can be used as a substitution value for this bands parameter.                                     |
-| datacube      | dimensions | `{cube:dimensions:<name>}` | The template parameter must specify which dimension it refers to by replacing the `<name>`. Any value that is representable via a `dimension` can be used as a substitution. |
+| Extension | Property   | Template parameter         | Mapping description                                                                                               |
+| --------- | ---------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| eo        | bands      | `{eo:band}`                | Each bands name can be used as a substitution value for this bands parameter.                                     |
+| datacube  | dimensions | `{cube:dimensions:<name>}` | The template parameter must specify which dimension it refers to by replacing the `<name>`. Any value that is representable via a `dimension` can be used as a substitution. |
 
 This list is not exhaustive, other useful template substitutions may exist.
 
