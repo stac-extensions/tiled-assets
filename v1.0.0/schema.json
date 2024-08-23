@@ -1,0 +1,416 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://stac-extensions.github.io/tiled-assets/v1.0.0/schema.json#",
+  "title": "Tiled Assets Extension",
+  "description": "STAC Tiled Assets Extension for STAC Items and STAC Collections.",
+  "type": "object",
+  "required": [
+    "stac_extensions"
+  ],
+  "properties": {
+    "stac_extensions": {
+      "type": "array",
+      "contains": {
+        "const": "https://stac-extensions.github.io/tiled-assets/v1.0.0/schema.json"
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "const": "Feature"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/item-tiles"
+        }
+      ]
+    },
+    {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "const": "Catalog"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/catalog-collection-tiles"
+        }
+      ]
+    },
+    {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "const": "Collection"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/catalog-collection-tiles"
+        }
+      ]
+    }
+  ],
+  "definitions": {
+    "catalog-collection-tiles": {
+      "title": "Tile matrix additions to STAC Collections and Catalogs",
+      "description": "Allows the definition of tile matrix sets on a Collection or Catalog.",
+      "type": "object",
+      "required": [
+        "tiles:tile_matrix_set"
+      ],
+      "properties": {
+        "tiles:tile_matrix_set": {
+          "$ref": "#/definitions/tile_matrix_set"
+        }
+      }
+    },
+    "item-tiles": {
+      "type": "object",
+      "required": [
+        "properties",
+        "asset_templates"
+      ],
+      "properties": {
+        "properties": {
+          "type": "object",
+          "required": [],
+          "properties": {
+            "tiles:tile_matrix_set": {
+              "$ref": "#/definitions/tile_matrix_set"
+            },
+            "tiles:tile_matrix_links": {
+              "title": "A map of tile matrix identifier to its definition with possible limits.",
+              "type": "object",
+              "patternProperties": {
+                "[a-zA-Z0-9]+": {
+                  "$ref": "#/definitions/tile_matrix_link"
+                }
+              }
+            }
+          }
+        },
+        "asset_templates": {
+          "title": "Asset template links",
+          "description": "Links to assets templates. These are regular assets that may have template arguments in their href property.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "https://schemas.stacspec.org/v1.0.0/item-spec/json-schema/item.json#/definitions/asset"
+          }
+        }
+      }
+    },
+    "tile_matrix_set": {
+      "$comment": "Should be a $ref to http://schemas.opengis.net/tms/1.0/json/tms-schema.json but it doesn't work",
+      "type": "object",
+      "required": ["type", "identifier", "supportedCRS", "tileMatrix"],
+      "properties": {
+        "type": {
+          "description": "Type of the Tile Matrix Set",
+          "enum": ["TileMatrixSetType"]
+        },
+        "title": {
+          "description": "Title of this tile matrix set, normally used for display to a human",
+          "type": "string"
+        },
+        "abstract": {
+          "description": "Brief narrative description of this tile matrix set, normally available for display to a human",
+          "type": "string"
+        },
+        "keywords": {
+          "description": "Unordered list of one or more commonly used or formalized word(s) or phrase(s) used to describe this dataset",
+          "$ref": "#/definitions/keywords" 
+        },
+        "identifier": {
+          "description": "Tile matrix set identifier",
+          "type": "string"
+        },
+        "boundingBox": {
+          "description": "Minimum bounding rectangle surrounding the tile matrix set, in the supported CRS",
+          "$ref": "#/definitions/boundingBox" 
+        },
+        "supportedCRS": {
+          "description": "Reference to one coordinate reference system (CRS)",
+          "type": "string",
+          "format": "uri"
+        },
+        "wellKnownScaleSet": {
+          "description": "Reference to a well-known scale set",
+          "type": "string",
+          "format": "uri"
+        },
+        "tileMatrix": {
+          "description": "Describes a scale level and its tile matrix",
+          "$ref": "#/definitions/tileMatrix" 
+        }
+      }
+    },
+    "tile_matrix_link": {
+      "type": "object",
+      "oneOf": [
+        {
+          "required": [
+            "url"
+          ]
+        },
+        {
+          "required": [
+            "well_known_scale_set"
+          ]
+        }
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "The URL to access the linked tile matrix set."
+        },
+        "well_known_scale_set": {
+          "type": "string",
+          "description": "The name of a Well Known Scale Set.",
+          "enum": [
+            "GlobalCRS84Scale",
+            "GlobalCRS84Pixel",
+            "GoogleCRS84Quad",
+            "WorldMercatorWGS84"
+          ]
+        },
+        "limits": {
+          "type": "object",
+          "description": "Optional limits for each tile matrix. Keys in this mapping must be all be valid tile matrix identifiers of the reference tile matrix set.",
+          "additionalProperties": {
+            "$ref": "#/definitions/tile_matrix_limits"
+          }
+        },
+        "pixel_buffer": {
+          "type": "object",
+          "description": "An optional pixel buffer description object per tile matrix. By default, no pixel buffers are used. Keys in this mapping must be all be valid tile matrix identifiers of the reference tile matrix set.",
+          "additionalProperties": {
+            "$ref": "#/definitions/pixel_buffer"
+          }
+        }
+      }
+    },
+    "tile_matrix_limits": {
+      "type": "object",
+      "description": "This object allows to specify subset region of the source tileset. This concept is modelled after the TileMatrixSetLimits2D requirement class.",
+      "properties": {
+        "min_tile_row": {
+          "type": "integer",
+          "description": "Minimum tile row index valid for this layer. If not specified it uses the the one from the referenced tile matrix."
+        },
+        "max_tile_row": {
+          "type": "integer",
+          "description": "Maximum tile row index valid for this layer. If not specified it uses the the one from the referenced tile matrix."
+        },
+        "min_tile_col": {
+          "type": "integer",
+          "description": "Minimum tile column index valid for this layer. If not specified it uses the the one from the referenced tile matrix."
+        },
+        "max_tile_col": {
+          "type": "integer",
+          "description": "Maximum tile column index valid for this layer. If not specified it uses the the one from the referenced tile matrix."
+        }
+      }
+    },
+    "pixel_buffer": {
+      "type": "object",
+      "properties": {
+        "top": {
+          "type": "integer",
+          "description": "The size of the pixel-buffer in the top border of the image. Default is `0`.",
+          "minimum": 0
+        },
+        "left": {
+          "type": "integer",
+          "description": "The size of the pixel-buffer in the left border of the image. Default is `0`.",
+          "minimum": 0
+        },
+        "bottom": {
+          "type": "integer",
+          "description": "The size of the pixel-buffer in the bottom border of the image. Default is `0`.",
+          "minimum": 0
+        },
+        "right": {
+          "type": "integer",
+          "description": "The size of the pixel-buffer in the right border of the image. Default is `0`.",
+          "minimum": 0
+        },
+        "border_top": {
+          "type": "boolean",
+          "description": "Whether or not the pixelbuffer is included images on the top border of the first tile row. Default is `true`."
+        },
+        "border_left": {
+          "type": "boolean",
+          "description": "Whether or not the pixelbuffer is included images on the left border of the first tile column. Default is `true`."
+        },
+        "border_bottom": {
+          "type": "boolean",
+          "description": "Whether or not the pixelbuffer is included images on the bottom border of the last tile row. Default is `true`."
+        },
+        "border_right": {
+          "type": "boolean",
+          "description": "Whether or not the pixelbuffer is included images on the right border of the last tile row. Default is `true`."
+        }
+      }
+    },
+    "keywords": {
+      "description": "Unordered list of one or more commonly used or formalised word(s) or phrase(s) used to describe this resource",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "boundingBox": {
+      "description": "Minimum bounding rectangle surrounding the tile matrix set, in the supported CRS",
+      "type": "object",
+      "required": ["type", "lowerCorner", "upperCorner"],
+      "properties": 
+      {
+        "type": {
+          "description": "Type of the Bounding Bos",
+          "enum": ["BoundingBoxType"]
+        },
+        "crs": {
+          "description": "",
+          "type": "string",
+          "format": "uri"
+        },
+        "lowerCorner": {					
+          "description": "",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "upperCorner": {					
+          "description": "",
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minItems": 2,
+            "maxItems": 2
+          }
+        }
+      }
+    },
+    "tileMatrix": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "identifier", "scaleDenominator", "topLeftCorner", "tileWidth", "tileHeight", "matrixWidth", "matrixHeight"],
+        "properties": {
+          "type": {
+            "description": "Type of the Tile Matrix",
+            "enum": ["TileMatrixType"]
+          },
+          "title": {
+            "description": "Title of this tile matrix set, normally used for display to a human",
+            "type": "string"
+          },
+          "abstract": {
+            "description": "Brief narrative description of this tile matrix set, normally available for display to a human",
+            "type": "string"
+          },
+          "keywords": {
+            "description": "Unordered list of one or more commonly used or formalized word(s) or phrase(s) used to describe this dataset",
+            "$ref": "#/definitions/keywords" 
+          },
+          "identifier": {
+            "description": "Tile matrix identifier",
+            "type": "string"
+          },
+          "scaleDenominator": {
+            "description": "Scale denominator level of this tile matrix",
+            "type": "number"
+          },
+          "topLeftCorner": {					
+            "description": "Position in CRS coordinates of the top-left corner of this tile matrix",
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "tileWidth": {
+            "description": "Width of each tile of this tile matrix in pixels",
+            "type": "number",
+            "minimum": 1,
+            "multipleOf" : 1
+          },
+          "tileHeight": {
+            "description": "Height of each tile of this tile matrix in pixels",
+            "type": "number",
+            "minimum": 1,
+            "multipleOf" : 1
+          },
+          "matrixWidth": {
+            "description": "Width of the matrix (number of tiles in width)",
+            "type": "number",
+            "minimum": 1,
+            "multipleOf" : 1
+          },
+          "matrixHeight": {
+            "description": "Height of the matrix (number of tiles in height)",
+            "type": "number",
+            "minimum": 1,
+            "multipleOf" : 1
+          },
+          "variableMatrixWidth": {
+            "description": "Describes the rows that has variable matix width",
+            "$ref": "#/definitions/variableMatrixWidth" 
+          }
+        }
+      }
+    },
+    "variableMatrixWidth": {
+      "description": "List of data structures defining the tiles rows that was variable width",
+      "type": "array",
+      "items": {
+        "description": "Variable Matrix Width data structure",
+        "type": "object",
+        "required": ["type", "coalesce", "minTileRow", "maxTileRow"],
+        "properties": {
+          "type": {
+            "description": "Type of the Variable Matrix Width",
+            "enum": ["VariableMatrixWidthType"]
+          },
+          "coalesce" : {
+            "description": "Coalescence factor",
+            "type": "number",
+            "minimum": 2,
+            "multipleOf" : 1
+          },
+          "minTileRow": {
+            "description": "Minimum tile row index valid for this layer",
+            "type": "number",
+            "minimum": 0,
+            "multipleOf" : 1
+          },
+          "maxTileRow": {
+            "description": "Maximim tile row index valid for this layer",
+            "type": "number",
+            "minimum": 0,
+            "multipleOf" : 1
+          }
+        }
+      }
+    }
+  }
+}
